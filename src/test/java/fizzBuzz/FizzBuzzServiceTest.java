@@ -73,7 +73,6 @@ public class FizzBuzzServiceTest {
 
         //then
         String resultString = String.join(",", result);
-        assertThat(resultString).isEqualTo("Buzz, 11, Fizz, 13, 14, FizzBuzz, 16, 17, Fizz, 19, Buzz, Fizz, 22, 23, " +
-                "Fizz, Buzz");
+        assertThat(resultString).isEqualTo("Buzz,11,Fizz,13,14,FizzBuzz,16,17,Fizz,19,Buzz,Fizz,22,23,Fizz,Buzz");
     }
 }
