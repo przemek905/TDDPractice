@@ -9,15 +9,18 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Subject {
+class Subject {
     private String name;
     private List<Grade> grades;
 
-    public void addGrade(Grade grade) {
-
+    void addGrade(Grade grade) {
+        grades.add(grade);
     }
 
-    public long getAvarage() {
-        return 0;
+    double getAverage() {
+        return grades.stream()
+                .mapToLong(Grade::getGradeValue)
+                .average()
+                .orElseThrow(() -> new IllegalStateException("Subject not have any grade."));
     }
 }

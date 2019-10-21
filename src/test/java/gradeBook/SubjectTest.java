@@ -53,7 +53,7 @@ public class SubjectTest {
         english.addGrade(Grade.D);
 
         //when
-        long englishAverage = english.getAvarage();
+        double englishAverage = english.getAverage();
 
         //then
         assertThat(englishAverage).isEqualTo(4.8);
@@ -64,10 +64,10 @@ public class SubjectTest {
         Subject english = new Subject("English", new ArrayList<>());
 
         //when
-        english.getAvarage();
-
         expectedException.expect(IllegalStateException.class);
         expectedException.expectMessage("Subject not have any grade.");
+
+        english.getAverage();
     }
 
 

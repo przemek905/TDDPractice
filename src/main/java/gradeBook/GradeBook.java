@@ -1,21 +1,39 @@
 package gradeBook;
 
-import java.util.List;
+import lombok.Data;
 
-public class GradeBook {
-    public void addSubject(Subject biology) {
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
+@Data
+class GradeBook {
+    private Map<String, Subject> subjects;
+
+    GradeBook() {
+        subjects = new HashMap<>();
     }
 
-    public List<Subject> getSubjects() {
-        return null;
+    void addSubject(Subject subject) {
+        subjects.put(subject.getName(), subject);
     }
 
-    public Subject getSubject(Subject subject) {
-        return null;
+    Map<String, Subject> getSubjects() {
+        return Collections.unmodifiableMap(subjects);
     }
 
-    public long getAverage() {
-        return 0;
+    Subject getSubject(String subjectName) {
+        return subjects.entrySet().stream()
+                .filter(x -> x.getKey().equals(subjectName))
+                .map(Map.Entry::getValue)
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("Subject not exist in gradebook"));
+    }
+
+    double getAverage() {
+        return subjects.values().stream()
+                .mapToDouble(Subject::getAverage)
+                .average()
+                .orElseThrow(() -> new IllegalStateException("Gradebook is empty"));
     }
 }

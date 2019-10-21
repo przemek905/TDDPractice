@@ -5,7 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.emptyList;
@@ -37,7 +37,7 @@ public class GradeBookTest {
         gradeBook.addSubject(biology);
 
         //then
-        assertThat(gradeBook.getSubjects()).extracting(Subject::getName).containsOnly("Biology");
+        assertThat(gradeBook.getSubjects().keySet()).containsOnly("Biology");
     }
 
     @Test
@@ -51,10 +51,10 @@ public class GradeBookTest {
         gradeBook.addSubject(history);
 
         //when
-        List<Subject> subjects = gradeBook.getSubjects();
+        Map<String, Subject> subjects = gradeBook.getSubjects();
 
         //then
-        assertThat(subjects).extracting(Subject::getName).contains("Biology", "History");
+        assertThat(subjects.keySet()).contains("Biology", "History");
     }
 
     @Test
@@ -68,11 +68,29 @@ public class GradeBookTest {
         gradeBook.addSubject(history);
 
         //when
-        Subject subject = gradeBook.getSubject(history);
+        Subject subject = gradeBook.getSubject(history.getName());
 
         //then
         assertThat(subject.getName()).isEqualTo("History");
     }
+
+    @Test
+    public void getSubjectFromGradeBookWhichNotExist() {
+        //given
+        Subject biology = new Subject("Biology", emptyList());
+        Subject history = new Subject("History", emptyList());
+
+        GradeBook gradeBook = new GradeBook();
+        gradeBook.addSubject(biology);
+        gradeBook.addSubject(history);
+
+        //when
+        expectedException.expect(IllegalStateException.class);
+        expectedException.expectMessage("Subject not exist in gradebook");
+
+        gradeBook.getSubject("English");
+    }
+
 
     @Test
     public void getGradeBookAverage() {
@@ -84,7 +102,7 @@ public class GradeBookTest {
         gradeBook.addSubject(history);
 
         //when
-        long gradeBookAverage = gradeBook.getAverage();
+        double gradeBookAverage = gradeBook.getAverage();
 
         //then
         assertThat(gradeBookAverage).isEqualTo(4.5);
@@ -96,9 +114,9 @@ public class GradeBookTest {
         GradeBook gradeBook = new GradeBook();
 
         //when
-        gradeBook.getAverage();
-
         expectedException.expect(IllegalStateException.class);
         expectedException.expectMessage("Gradebook is empty");
+
+        gradeBook.getAverage();
     }
 }
