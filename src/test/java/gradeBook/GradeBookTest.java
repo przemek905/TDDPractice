@@ -1,7 +1,9 @@
 package gradeBook;
 
 import org.assertj.core.util.Lists;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.List;
 
@@ -11,6 +13,8 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 
 public class GradeBookTest {
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void createGradeBook() {
@@ -84,5 +88,17 @@ public class GradeBookTest {
 
         //then
         assertThat(gradeBookAverage).isEqualTo(4.5);
+    }
+
+    @Test
+    public void emptyGradeBookAverage() {
+        //given
+        GradeBook gradeBook = new GradeBook();
+
+        //when
+        gradeBook.getAverage();
+
+        expectedException.expect(IllegalStateException.class);
+        expectedException.expectMessage("Gradebook is empty");
     }
 }

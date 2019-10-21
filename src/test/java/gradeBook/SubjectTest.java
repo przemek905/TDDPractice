@@ -1,6 +1,8 @@
 package gradeBook;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class SubjectTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void createSubject() {
@@ -53,5 +58,17 @@ public class SubjectTest {
         //then
         assertThat(englishAverage).isEqualTo(4.8);
     }
+    @Test
+    public void countAverageGradeForEmptySubject() {
+        //given
+        Subject english = new Subject("English", new ArrayList<>());
+
+        //when
+        english.getAvarage();
+
+        expectedException.expect(IllegalStateException.class);
+        expectedException.expectMessage("Subject not have any grade.");
+    }
+
 
 }
