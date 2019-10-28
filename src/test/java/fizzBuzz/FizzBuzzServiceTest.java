@@ -75,4 +75,18 @@ public class FizzBuzzServiceTest {
         String resultString = String.join(",", result);
         assertThat(resultString).isEqualTo("Buzz,11,Fizz,13,14,FizzBuzz,16,17,Fizz,19,Buzz,Fizz,22,23,Fizz,Buzz");
     }
+
+    @Test
+    public void oneNumberTest() {
+        //given
+        int from = 10;
+        int to = 10;
+
+        //when
+        String[] result = FizzBuzzService.doFizzBuzz(from, to);
+
+        //then
+        String resultString = String.join(",", result);
+        assertThat(resultString).isEqualTo("Buzz");
+    }
 }

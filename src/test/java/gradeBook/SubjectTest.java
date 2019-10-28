@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,6 +59,7 @@ public class SubjectTest {
         //then
         assertThat(englishAverage).isEqualTo(4.8);
     }
+
     @Test
     public void countAverageGradeForEmptySubject() {
         //given
@@ -70,5 +72,19 @@ public class SubjectTest {
         english.getAverage();
     }
 
+    @Test
+    public void getSubjectsTest() {
+        //given
+        Subject english = new Subject("English", Collections.singletonList(Grade.A));
 
+        //when
+        String name = english.getName();
+        List<Grade> grades = english.getGrades();
+        double average = english.getAverage();
+
+        //then
+        assertThat(name).isEqualTo("English");
+        assertThat(grades).hasSize(1);
+        assertThat(average).isEqualTo(6);
+    }
 }
